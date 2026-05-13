@@ -2,6 +2,9 @@
 
 Pipeline para procesar mensajes de WhatsApp (grupo), extraer contenido de videos/redes y notas de voz, y crear notas clasificadas en Obsidian (vault remoto Windows por SSH/Tailscale).
 
+## Arquitectura
+- Ver detalle completo en: `docs/ARCHITECTURE.md`
+
 ## Componentes
 - `AGENTS.md`: reglas operativas del agente `obsidian-inbox-agent`
 - `scripts/ingest_tiktok_to_obsidian.py`: TikTok/YouTube Shorts/Instagram Reels -> audio -> transcripción (Whisper local) -> nota clasificada
