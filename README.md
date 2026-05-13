@@ -11,6 +11,7 @@ Pipeline para procesar mensajes de WhatsApp (grupo), extraer contenido de videos
 - `scripts/ingest_audio_note_to_obsidian.py`: audio/nota de voz -> transcripción -> ideas -> nota clasificada
 - `scripts/ingest_whatsapp_media_to_obsidian.sh`: wrapper para adjuntos WhatsApp
 - `scripts/ingest_instagram_image_to_obsidian.py`: análisis de imagen Instagram (visión + OCR + insights) a nota clasificada
+- `scripts/ingest_instagram_carousel_to_obsidian.py`: ingestión de carrusel Instagram (`/p/`) con detección de slides y nota estructurada por slide
 - `scripts/extract_tiktok_info.sh`: fallback metadata de TikTok
 - `scripts/write_obsidian_note_remote.sh`: escritura remota a `C:\obsidian\vault`
 - `scripts/whatsapp-group-healthcheck.sh`: validaciones de routing/políticas/logs
@@ -52,4 +53,13 @@ python3 scripts/ingest_instagram_image_to_obsidian.py \
   --caption "<caption>" \
   --analysis "<insights+ocr>" \
   --title "<titulo>"
+
+# Carrusel Instagram
+python3 scripts/ingest_instagram_carousel_to_obsidian.py "<url_instagram_p>"
 ```
+
+## Detección automática sugerida
+- `instagram.com/p/` -> carrusel
+- `instagram.com/reel/` / `tiktok.com` / `youtube.com/shorts` -> video social
+- adjunto `ogg/mp3/m4a/wav/...` -> nota de voz/audio
+- adjunto `jpg/png/webp` -> imagen estática

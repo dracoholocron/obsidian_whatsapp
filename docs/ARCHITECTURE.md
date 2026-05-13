@@ -28,6 +28,10 @@ Convertir mensajes de WhatsApp (texto, links, videos sociales y audios) en notas
   - Imagen Instagram (post/story/screenshot)
   - Entrada: resumen visual + OCR + caption (obtenidos por módulo de visión)
   - Salida: nota clasificada con insights y acciones
+- `scripts/ingest_instagram_carousel_to_obsidian.py`
+  - Carrusel Instagram (`/p/`)
+  - Descarga/detección de slides con `yt-dlp` (best effort)
+  - Genera nota por slide + estado técnico cuando Instagram restringe acceso
 - `scripts/ingest_whatsapp_media_to_obsidian.sh`
   - Wrapper para adjuntos WhatsApp
   - Ruta automática a pipeline de audio o fallback
@@ -61,6 +65,7 @@ Convertir mensajes de WhatsApp (texto, links, videos sociales y audios) en notas
    - link de video social -> pipeline de video
    - audio/nota de voz -> pipeline de audio
    - imagen Instagram -> análisis visual/OCR + pipeline de imagen
+   - carrusel Instagram (`/p/`) -> pipeline carrusel
    - texto/link no procesable -> fallback
 4. Se genera nota markdown con resumen + acciones + tags + fuente.
 5. Se clasifica carpeta/subtema/mes.

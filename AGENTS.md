@@ -4,9 +4,15 @@ Objetivo: procesar contenido enviado al grupo WhatsApp **Obsidian inbox** y conv
 
 ## Flujo obligatorio
 1. Detectar tipo de entrada (link, texto, imagen, video/audio).
+   - Audio: extensiones/mime `ogg|opus|mp3|m4a|wav|aac|webm` -> pipeline audio.
+   - Imagen estática: `jpg|jpeg|png|webp` -> pipeline imagen Instagram/OCR.
+   - Video social URL: `tiktok.com`, `instagram.com/reel`, `youtube.com/shorts`, `youtu.be` -> pipeline video.
+   - Carrusel Instagram URL: `instagram.com/p/` -> pipeline carrusel.
 2. Extraer contenido principal (sin ruido).
    - Si es video social (TikTok / YouTube Shorts / Instagram Reels), usar pipeline:
      - `python3 scripts/ingest_tiktok_to_obsidian.py "<url>"`
+   - Si es carrusel Instagram, usar pipeline:
+     - `python3 scripts/ingest_instagram_carousel_to_obsidian.py "<url>"`
    - Si llega adjunto de audio/nota de voz, procesarlo automáticamente con Whisper local:
      - `scripts/ingest_whatsapp_media_to_obsidian.sh "<media_path>" "<titulo>"`
      - `media_path` se toma de attachments/media inbound del mensaje.
