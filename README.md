@@ -70,3 +70,19 @@ python3 scripts/ingest_instagram_carousel_to_obsidian.py "<url_instagram_p>" \
 - `instagram.com/reel/` / `tiktok.com` / `youtube.com/shorts` -> video social
 - adjunto `ogg/mp3/m4a/wav/...` -> nota de voz/audio
 - adjunto `jpg/png/webp` -> imagen estática
+
+## Automatización de cookies Instagram (Playwright)
+```bash
+# 1) Instalar browser de Playwright (una sola vez)
+npx playwright install chromium
+
+# 2) Inicializar login interactivo (cuando toque renovar sesión)
+bash scripts/init_instagram_login_playwright.sh
+
+# 3) Ejecutar carrusel con refresh automático de cookies
+bash scripts/run_carousel_with_auto_cookies.sh "<instagram_post_url>" "<title_opcional>"
+```
+
+Notas:
+- `run_carousel_with_auto_cookies.sh` intenta refrescar cookies automáticamente desde `config/instagram-storage-state.json`.
+- Si Instagram invalida sesión, correr `init_instagram_login_playwright.sh` para relogin.

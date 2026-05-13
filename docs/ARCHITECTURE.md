@@ -52,7 +52,15 @@ Convertir mensajes de WhatsApp (texto, links, videos sociales y audios) en notas
 - Escribe por SSH/Tailscale en host Windows:
   - `C:\obsidian\vault`
 
-### 6) Observabilidad y continuidad
+### 6) Auth automation para Instagram (Playwright)
+- `scripts/refresh_instagram_cookies_playwright.js`
+  - Refresca cookies para `yt-dlp` y guarda estado de sesión.
+- `scripts/init_instagram_login_playwright.sh`
+  - Login interactivo inicial/renovación.
+- `scripts/run_carousel_with_auto_cookies.sh`
+  - Ejecuta carrusel con reintento y refresh automático de cookies.
+
+### 7) Observabilidad y continuidad
 - `scripts/whatsapp-group-healthcheck.sh`
 - `scripts/whatsapp-group-healthcheck-cron.sh`
 - Verifica bindings, inbound, sessionKey y condiciones de salud.

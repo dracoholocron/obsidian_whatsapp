@@ -1,0 +1,26 @@
+{
+  "name": "obsidian_whatsapp",
+  "version": "1.0.0",
+  "description": "Pipeline para procesar mensajes de WhatsApp (grupo), extraer contenido de videos/redes y notas de voz, y crear notas clasificadas en Obsidian (vault remoto Windows por SSH/Tailscale).",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dracoholocron/obsidian_whatsapp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dracoholocron/obsidian_whatsapp/issues"
+  },
+  "homepage": "https://github.com/dracoholocron/obsidian_whatsapp#readme",
+  "dependencies": {
+    "playwright": "^1.60.0"
+  }
+}
