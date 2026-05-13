@@ -56,6 +56,13 @@ python3 scripts/ingest_instagram_image_to_obsidian.py \
 
 # Carrusel Instagram
 python3 scripts/ingest_instagram_carousel_to_obsidian.py "<url_instagram_p>"
+
+# Carrusel privado/restringido (con sesión)
+python3 scripts/ingest_instagram_carousel_to_obsidian.py "<url_instagram_p>" \
+  --cookies-from-browser chrome
+# o
+python3 scripts/ingest_instagram_carousel_to_obsidian.py "<url_instagram_p>" \
+  --cookies-file "/ruta/cookies.txt"
 ```
 
 ## Detección automática sugerida

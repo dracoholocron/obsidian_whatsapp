@@ -24,14 +24,25 @@ def safe(s: str, n: int = 100):
     return s[:n] if s else "Instagram Carousel"
 
 
-def fetch_meta(url: str):
-    out = run(["yt-dlp", "--dump-single-json", "--no-warnings", "--skip-download", url])
+def build_yt_dlp_auth_args(cookies_file: str, cookies_from_browser: str):
+    args = []
+    if cookies_file:
+        args += ["--cookies", cookies_file]
+    elif cookies_from_browser:
+        args += ["--cookies-from-browser", cookies_from_browser]
+    return args
+
+
+def fetch_meta(url: str, auth_args=None):
+    auth_args = auth_args or []
+    out = run(["yt-dlp", "--dump-single-json", "--no-warnings", "--skip-download", *auth_args, url])
     return json.loads(out)
 
 
-def try_download_slides(url: str, workdir: Path):
+def try_download_slides(url: str, workdir: Path, auth_args=None):
+    auth_args = auth_args or []
     # Best effort: requires that media is accessible for this post/account.
-    cmd = ["yt-dlp", "--no-warnings", "--no-progress", "-o", str(workdir / "slide_%(autonumber)02d.%(ext)s"), url]
+    cmd = ["yt-dlp", "--no-warnings", "--no-progress", *auth_args, "-o", str(workdir / "slide_%(autonumber)02d.%(ext)s"), url]
     p = subprocess.run(cmd, capture_output=True, text=True)
     slides = sorted([str(x) for x in workdir.glob("slide_*.*")])
     return slides, p.returncode, (p.stderr or "").strip()
@@ -52,14 +63,18 @@ def main():
     ap = argparse.ArgumentParser(description="Ingesta de carrusel de Instagram a Obsidian")
     ap.add_argument("url")
     ap.add_argument("--title", default="")
+    ap.add_argument("--cookies-file", default="", help="ruta a cookies.txt exportado del navegador")
+    ap.add_argument("--cookies-from-browser", default="", help="ej: chrome, firefox, edge")
     args = ap.parse_args()
 
-    meta = fetch_meta(args.url)
+    auth_args = build_yt_dlp_auth_args(args.cookies_file, args.cookies_from_browser)
+
+    meta = fetch_meta(args.url, auth_args=auth_args)
     title = args.title or safe(meta.get("title") or "Instagram Carousel")
     desc = meta.get("description") or ""
 
     with tempfile.TemporaryDirectory(prefix="ig_carousel_") as td:
-        slides, rc, err = try_download_slides(args.url, Path(td))
+        slides, rc, err = try_download_slides(args.url, Path(td), auth_args=auth_args)
 
         folder, sub = classify(f"{title} {desc}")
         month = datetime.now(timezone.utc).strftime("%Y-%m")
@@ -91,6 +106,7 @@ def main():
 
 ## Estado técnico
 - yt-dlp download returncode: {rc}
+- auth mode: {'cookies-file' if args.cookies_file else ('cookies-from-browser' if args.cookies_from_browser else 'none')}
 - stderr: {err[:500] if err else '(vacío)'}
 """
 
