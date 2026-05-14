@@ -10,11 +10,22 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 WRITE_REMOTE = SCRIPT_DIR / "write_obsidian_note_remote.sh"
 
 
+def _decode(data: bytes) -> str:
+    for enc in ("utf-8", "cp1252", "latin-1"):
+        try:
+            return data.decode(enc)
+        except UnicodeDecodeError:
+            continue
+    return data.decode("utf-8", errors="replace")
+
+
 def run(cmd):
-    p = subprocess.run(cmd, capture_output=True, text=True)
+    p = subprocess.run(cmd, capture_output=True, text=False)
+    stdout = _decode(p.stdout or b"")
+    stderr = _decode(p.stderr or b"")
     if p.returncode != 0:
-        raise RuntimeError(f"Command failed: {' '.join(cmd)}\n{p.stderr.strip()}")
-    return p.stdout.strip()
+        raise RuntimeError(f"Command failed: {' '.join(cmd)}\n{stderr.strip()}")
+    return stdout.strip()
 
 
 def classify(text: str):
